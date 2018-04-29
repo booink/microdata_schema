@@ -1,9 +1,5 @@
 # MicrodataSchema
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/microdata_schema`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +18,40 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+* application.html.erb
+
+```app/views/layouts/application.html.erb
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <%= yield(:json_ld_tag) %>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+* bar.html.erb
+
+```app/views/foos/bar.html.erb
+<%
+json_ld_tag = Microdata::Schema::List.new([
+  Microdata::Schema::SoftwareSourceCode.new(
+    code_repository: "https://github.com/booink/microdata_schema", programming_language: "ruby",
+  ),
+  Microdata::Schema::BreadcrumbList.new(
+    item_list_element: [
+      Microdata::Schema::ListItem.new(position: 1, item: Microdata::Schema::Thing.new(id: "https://github.com/booink/microdata_schema/blob/master/lib/microdata/schema/thing.rb", name: 'Thing')),
+      Microdata::Schema::ListItem.new(position: 2, item: Microdata::Schema::Thing.new(id: "https://github.com/booink/microdata_schema/blob/master/lib/microdata/schema/thing/action.rb", name: 'Action')),
+      Microdata::Schema::ListItem.new(position: 2, item: Microdata::Schema::Thing.new(id: "https://github.com/booink/microdata_schema/blob/master/lib/microdata/schema/thing/action/play_action.rb", name: 'PlayAction'))
+    ]
+  )
+]).to_json_ld.html_safe
+%>
+<% provide :json_ld_tag, json_ld_tag %>
+```
 
 ## Development
 
@@ -32,7 +61,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/microdata_schema. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/booink/microdata_schema. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +69,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Code of Conduct
 
-Everyone interacting in the MicrodataSchema project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/microdata_schema/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the MicrodataSchema project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/booink/microdata_schema/blob/master/CODE_OF_CONDUCT.md).
