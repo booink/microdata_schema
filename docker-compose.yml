@@ -1,0 +1,7 @@
+version: '3'
+services:
+  microdata_schema:
+    build:
+      context: .
+    volumes:
+      - .:/app
